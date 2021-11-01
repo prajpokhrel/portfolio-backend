@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     if (!validPassword) res.status(400).send('Invalid E-mail or Password.');
 
     const token = user.generateAuthToken();
-    res.cookie('portfolioJWT', token, {domain:'https://portfolio-builder.prajwalp.com.np', httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: "None" });
+    res.cookie('portfolioJWT', token, {domain:'https://portfolio-builder.prajwalp.com.np', httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: "none" });
     res.status(200).json({ userID: user._id });
 
 });
