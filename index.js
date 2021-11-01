@@ -20,13 +20,21 @@ const error = require('./middlewares/error');
 
 const app = express();
 
+require('./startup/prod')(app);
+
 if (!config.get('jwtPrivateKey')) {
     console.error('FATAL ERROR: jwtPrivateKey is not defined');
     process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost:27017/portfolio')
-    .then(() => console.log("SUCCESS: Connected to Community database..."))
+if (!config.get('db')) {
+    console.error('FATAL ERROR: DB URI is not defined');
+    process.exit(1);
+}
+
+const portfolioDB = config.get('db');
+mongoose.connect(portfolioDB)
+    .then(() => console.log("SUCCESS: Connected to Portfolio database..."))
     .catch((error) => console.log("OOPS: Failed to connect to database...", error));
 
 app.use(express.json());
