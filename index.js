@@ -44,15 +44,6 @@ app.use(cors({credentials: true, origin: 'https://portfolio-builder.prajwalp.com
 
 app.use('/assets/images', express.static(path.join('assets', 'images')));
 
-// app.use(function (req, res, next) {
-//     //Enabling CORS
-//     res.setHeader("Access-Control-Allow-Origin", "https://portfolio-builder.prajwalp.com.np/");
-//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-//     res.setHeader("Access-Control-Allow-Credentials", "include");
-//     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
-//     next();
-// });
-
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
 app.use('/api/v1/personalInfo', personalInfo);
