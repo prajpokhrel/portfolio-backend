@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
-    res.cookie('portfolioJWT', token, { httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: "None" });
+    res.cookie('portfolioJWT', token, { domain:'https://portfolio-builder.prajwalp.com.np', httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: "None" });
     res.status(201).send({
         _id: user._id,
         name: user.name,
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/logout', requireAuth, (req, res) => {
-    res.cookie('portfolioJWT', '', {maxAge: 1, secure: true, sameSite: "None"});
+    res.cookie('portfolioJWT', '', {domain:'https://portfolio-builder.prajwalp.com.np', maxAge: 1, secure: true, sameSite: "None"});
     res.send("Logged out.");
 });
 
