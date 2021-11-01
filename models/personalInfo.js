@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
+const { errorConditions } = require('../utils/errorMessages');
 
 const personalInfoSchema = new mongoose.Schema({
     firstName: {
@@ -11,8 +13,7 @@ const personalInfoSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     bio: {
         type: String,
@@ -26,9 +27,26 @@ const personalInfoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    portfolioId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Portfolio',
+        required: true
     }
 }, {timestamps: true});
 
-const PersonalInfo = mongoose.model('PersonalInfo', personalInfoSchema);
+const PersonalInfo = mongoose.model('PersonalInfo', personalInfoSchema, 'PersonalInfo');
 
-module.exports = PersonalInfo;
+function validatePersonalInfo(personalInfo) {
+    const schema = Joi.object({
+        firstName: Joi.string().min(3).max(50).required().error((errors) => errorConditions(errors)),
+        lastName: Joi.string().min(3).max(50).required().error((errors) => errorConditions(errors)),
+        email: Joi.string().email({ minDomainSegments: 2 }).required().error((errors) => errorConditions(errors)),
+        bio: Joi.string().min(10).required().error((errors) => errorConditions(errors)),
+    });
+
+    return schema.validate(personalInfo);
+}
+
+module.exports.PersonalInfo = PersonalInfo;
+module.exports.validate = validatePersonalInfo;

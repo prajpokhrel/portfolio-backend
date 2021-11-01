@@ -1,56 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const BackgroundInfo = require('../models/backgroundInfo');
 const requireAuth = require('../middlewares/requireAuth');
+const backgroundController = require('../controllers/backgroundController');
 
-router.post('/', requireAuth, async (req, res) => {
+router.post('/:id', requireAuth, backgroundController.addBackgroundInfo);
 
-    let newPersonalInfo = new BackgroundInfo({
-        currentWork: req.body.currentWork,
-        previousEducation: req.body.previousEducation,
-        currentJobDescription: req.body.currentJobDescription,
-        outsideActivities: req.body.outsideActivities,
-        portfolioOf: req.currentUser._id
-    });
+router.get('/:id', requireAuth, backgroundController.getBackgroundInfo);
 
-    newPersonalInfo = await newPersonalInfo.save();
-    res.send(newPersonalInfo);
+router.patch('/:id', requireAuth, backgroundController.updateBackgroundInfo);
 
-});
-
-router.get('/', requireAuth, async (req, res) => {
-    const backgroundInfo = await BackgroundInfo
-        .find({ portfolioOf: mongoose.Types.ObjectId(req.currentUser._id) })
-        .sort({createdAt: -1});
-
-    res.send(backgroundInfo);
-});
-
-router.put('/:id', requireAuth, async (req, res) => {
-    const backgroundInfo = await BackgroundInfo
-        .findByIdAndUpdate(req.params.id, {
-            $set: {
-                currentWork: req.body.currentWork,
-                previousEducation: req.body.previousEducation,
-                currentJobDescription: req.body.currentJobDescription,
-                outsideActivities: req.body.outsideActivities,
-                portfolioOf: req.currentUser._id
-            }
-        }, {new: true});
-
-    if (!backgroundInfo) return res.status(404).send("The info requested does not exist.");
-
-    res.send(backgroundInfo);
-
-});
-
-router.delete('/:id', requireAuth, async (req, res) => {
-    const backgroundInfo = await BackgroundInfo.findByIdAndDelete(req.params.id);
-
-    if (!backgroundInfo) return res.status(404).send("The info requested does not exist.");
-
-    res.send(backgroundInfo);
-});
+router.delete('/:id', requireAuth, backgroundController.deleteBackgroundInfo);
 
 module.exports = router;

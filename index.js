@@ -1,5 +1,6 @@
 const express = require('express');
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
 const config = require('config');
 const auth = require('./routes/auth');
@@ -11,9 +12,11 @@ const experience = require('./routes/experience');
 const featuredProject = require('./routes/featuredProject');
 const otherProject = require('./routes/otherProject');
 const skills = require('./routes/skills');
+const portfolio = require('./routes/portfolio');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const path = require('path');
+const error = require('./middlewares/error');
 
 const app = express();
 
@@ -28,11 +31,9 @@ mongoose.connect('mongodb://localhost:27017/portfolio')
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(cors({credentials: true, origin: true}));
-// app.use(cors());
 
-// app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+app.use('/assets/images', express.static(path.join('assets', 'images')));
 
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
@@ -43,6 +44,7 @@ app.use('/api/v1/experience', experience);
 app.use('/api/v1/otherProject', otherProject);
 app.use('/api/v1/featuredProject', featuredProject);
 app.use('/api/v1/skills', skills);
+app.use('/api/v1/portfolio', portfolio);
 
 const PORT = process.env.PORT || 5000;
 const HOSTNAME = "127.0.0.1";

@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/users');
+const {User, validate} = require('../models/users');
 const bcrypt = require('bcrypt');
 const requireAuth = require('../middlewares/requireAuth');
 const router = express.Router();
@@ -14,8 +14,15 @@ const maxAge = 3 * 24 * 60 * 60;
 
 router.post('/', async (req, res) => {
 
+    const { error } = validate(req.body);
+
+    if (error) {
+        res.status(400).send(error.details[0]);
+        return;
+    }
+
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).send('User is already registered, please login');
+    if (user) return res.status(400).send('User is already registered, please login.');
 
     user = new User({
         name: req.body.name,
@@ -40,8 +47,7 @@ router.post('/', async (req, res) => {
 
 router.get('/logout', requireAuth, (req, res) => {
     res.cookie('portfolioJWT', '', {maxAge: 1});
-    // where to send after logout, decided later
-    // res.redirect('/') or auth page;
+    res.send("Logged out.");
 });
 
 module.exports = router;
