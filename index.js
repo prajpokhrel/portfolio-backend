@@ -40,7 +40,7 @@ mongoose.connect(portfolioDB)
 app.use(express.json());
 app.use(cookieParser());
 // app.use(cors());
-app.use(cors({credentials: true, origin: 'https://portfolio-builder.prajwalp.com.np/'}));
+app.use(cors({credentials: true, origin: 'https://portfolio-builder.prajwalp.com.np'}));
 
 app.use('/assets/images', express.static(path.join('assets', 'images')));
 
