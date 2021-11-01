@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     if (!validPassword) res.status(400).send('Invalid E-mail or Password.');
 
     const token = user.generateAuthToken();
-    res.cookie('portfolioJWT', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie('portfolioJWT', token, { httpOnly: true, maxAge: maxAge * 1000, secure: true, sameSite: false });
     res.status(200).json({ userID: user._id });
 
 });
