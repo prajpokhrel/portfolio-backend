@@ -10,7 +10,7 @@ module.exports.addExperience = async (req, res) => {
         return;
     }
 
-    // Destructuring [i like to do the long way though :P]
+    // Destructuring 
     // const {jobTitle, employer, jobDescription, place, startDate, endDate} = req.body;
 
     try {

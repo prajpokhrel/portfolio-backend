@@ -10,7 +10,7 @@ module.exports.addPortfolio = async (req, res) => {
         return;
     }
 
-    // Destructuring [i like to do the long way though :P]
+    // Destructuring
     // const {portfolioName, portfolioDescription} = req.body;
 
     try {

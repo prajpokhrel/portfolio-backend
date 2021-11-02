@@ -11,7 +11,7 @@ module.exports.addPersonalInfo = async (req, res) => {
         return;
     }
 
-    // Destructuring [i like to do the long way though :P]
+    // Destructuring
     // const {firstName, lastName, email, bio} = req.body;
 
     try {

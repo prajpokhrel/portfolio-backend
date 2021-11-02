@@ -10,7 +10,7 @@ module.exports.addSkills = async (req, res) => {
         return;
     }
 
-    // Destructuring [i like to do the long way though :P]
+    // Destructuring 
     // const {Languages, Frameworks, Tools, Design} = req.body;
 
     try {
